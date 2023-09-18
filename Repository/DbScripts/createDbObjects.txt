@@ -1,0 +1,74 @@
+﻿USE [Setvi]
+GO
+
+IF OBJECT_ID(N'dbo.Users', N'U') IS NOT NULL  
+	DROP TABLE [dbo].[Users];
+GO
+
+CREATE TABLE [dbo].[Users]
+(
+	[Id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    [FirstName] NVARCHAR(100),
+    [LastName] NVARCHAR(100),
+    [Email] NVARCHAR(100),
+    [CompanyId] INT
+)
+GO
+
+IF OBJECT_ID(N'dbo.Company', N'U') IS NOT NULL  
+	DROP TABLE [dbo].[Company];
+GO
+
+CREATE TABLE [dbo].[Company]
+(
+	[Id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY,	
+    [Name] NVARCHAR(100)
+)
+GO
+
+
+IF OBJECT_ID(N'dbo.GetCompanyUsers', N'P') IS NOT NULL  
+	DROP PROCEDURE [dbo].[GetCompanyUsers]
+GO
+
+CREATE PROCEDURE [dbo].[GetCompanyUsers]
+  @CompanyId INT
+AS
+  SELECT u.[Id],
+  u.[FirstName],
+  u.[LastName],  
+  u.[Email],
+  c.[Id] [CompanyId]
+  FROM [dbo].[Company] c 
+  JOIN [dbo].[Users] u 
+       ON c.[Id] = u.[CompanyId]
+  WHERE c.[Id] = @CompanyId
+RETURN 0
+GO
+
+IF OBJECT_ID(N'dbo.AddUser', N'P') IS NOT NULL  
+	DROP PROCEDURE [dbo].[AddUser]
+GO
+
+CREATE PROCEDURE [dbo].[AddUser]
+  @firstName NVARCHAR(100) = NULL,
+  @lastName NVARCHAR(100) = NULL,
+  @email NVARCHAR(100) = NULL,
+  @companyId NVARCHAR(100) = NULL
+AS
+	IF @firstName IS NULL AND @lastName IS NULL AND @email IS NULL AND @companyId IS NULL
+		RETURN 0
+
+	INSERT INTO [dbo].[Users] (
+		FirstName,		
+		LastName,
+		Email,
+		CompanyId)
+	VALUES (
+		@firstName,
+		@lastName,
+		@email,
+		CAST(@companyId AS INT))
+
+RETURN 0
+GO

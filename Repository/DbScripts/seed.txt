@@ -1,0 +1,18 @@
+﻿INSERT INTO [dbo].[Company] VALUES ('Facebook'), ('Twiter'), ('Alibaba'), ('Setvi'), ('Microsoft')
+GO
+
+INSERT INTO [dbo].[Users] VALUES
+('Alen','Sugar','asugar@facebook.com',1),
+('Stiv','Jobs','sjobs@microsoft.com',5),
+('Ilon','Mask','imask@tweeter.com',2),
+('Jack','Ma','jma@alibaba.com',3),
+('Miodrag','Nejkovic','mnejkovic@setvi.com',4),
+('Irena','Kosanovic','ikosanovic@setvi.com',4),
+('Janko','Jekic','jjekic@setvi',4),
+('Employe0','Surname0','esurname0@setvi',4),
+('Employe1','Surname1','esurname1@setvi',4),
+('Employe2','Surname2','esurname2@setvi',4),
+('Employe3','Surname3','esurname3@setvi',4),
+('Employe4','Surname4','esurname4@setvi',4),
+('Employe5','Surname5','esurname5@setvi',4)
+GO

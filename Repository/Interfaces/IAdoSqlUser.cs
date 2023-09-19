@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Interfaces
 {
-    public interface IUser
+    public interface IAdoSqlUser
     {
         ValueTask<User> CreateUser(User user);
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class AdoSqlUser: IUser
+    public class AdoSqlUser: IAdoSqlUser
     {
         private IUserCache _cache;
 

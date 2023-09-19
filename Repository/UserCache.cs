@@ -51,11 +51,14 @@ namespace Repository
             var semaphore = new SemaphoreSlim(10);
             try
             {
-                output = _cache.GroupBy(x => x.Key.StartsWith(group)).ToList()[0].ToList().Select(x => x.Value).ToArray();
-                result = output.AsParallel().Where(x => x.CompanyId == user.CompanyId &&
-                                                   x.FirstName == user.FirstName &&
-                                                   x.LastName == user.LastName &&
-                                                   x.Email == user.Email).FirstOrDefault();
+                result = _cache.AsParallel()
+                               .Where(x => x.Key.StartsWith(group))
+                               .OrderBy(x => x.Value.FirstName)
+                               .Select(x => x.Value)
+                               .Where(x => x.CompanyId == user.CompanyId &&
+                                      x.FirstName == user.FirstName &&
+                                      x.LastName == user.LastName &&
+                                      x.Email == user.Email).FirstOrDefault();
             }
             finally
             {
@@ -75,7 +78,11 @@ namespace Repository
             try
             {
                 await semaphore.WaitAsync();
-                var output = _cache.AsParallel().GroupBy(x => x.Key.StartsWith(group)).ToList()[0].ToList().Select(x => x.Value).OrderBy(x => x.FirstName).ToArray();
+                var output = _cache.AsParallel()
+                                   .Where(x => x.Key.StartsWith(group))
+                                   .OrderBy(x => x.Value.FirstName)
+                                   .Select(x => x.Value)
+                                   .ToArray();
                 take = Math.Min(take, output.Length - skip);
                 arrayOfUsers = new User[take];
                 Array.ConstrainedCopy(output, skip, arrayOfUsers, 0, take);

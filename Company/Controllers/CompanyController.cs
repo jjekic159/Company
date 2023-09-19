@@ -1,14 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Repository;
 using Repository.Interfaces;
-using System.Configuration;
-using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace Company.Controllers
 {
@@ -16,9 +10,9 @@ namespace Company.Controllers
     [Route("[controller]")]
     public class CompanyController : ControllerBase
     {
-        private IUser dbUser;
+        private IAdoSqlUser dbUser;
 
-        public CompanyController(IUser user, IConfiguration configuration)
+        public CompanyController(IAdoSqlUser user, IConfiguration configuration)
         {
             this.dbUser = user;
             this.dbUser.ConnectionString = configuration.GetConnectionString("MyConnection");
@@ -34,47 +28,11 @@ namespace Company.Controllers
 
         [Route("{companyId}")]
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async ValueTask<Models.User> Create(int companyId, [FromBody]Models.User user)//int id, IFormCollection collection)
+        public async ValueTask<Models.User> Create(int companyId, [FromBody]Models.User user)
         {
             user.CompanyId = companyId;
             return await dbUser.CreateUser(user);
         }
-
-        // POST: CompanyController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: CompanyController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-        //
-        //// POST: CompanyController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        
     }
 }

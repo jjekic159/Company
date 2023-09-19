@@ -27,7 +27,7 @@ namespace Company
 
             services.AddSingleton<Repository.Interfaces.IUserCache, Repository.UserCache>();
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddTransient<Repository.Interfaces.IUser, Repository.AdoSqlUser>();
+            services.AddTransient<Repository.Interfaces.IAdoSqlUser, Repository.AdoSqlUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
